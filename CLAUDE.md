@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## 言語設定
+- プロジェクト内でのやり取りやコメントは日本語で行う
+- コードのコメントも日本語で記述する
+
 ## Project Overview
 This is a Kotlin Spring Boot application for managing books and authors using jOOQ for database access and Flyway for migrations. The system handles book and author information with proper validation and business rules.
 
