@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: quo-test
+  datasource:
+    url: jdbc:postgresql://localhost:5432/quo_test
+    username: quo_user
+    password: quo_pass
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  flyway:
+    enabled: false  # 最初はFlywayを無効化
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    baseline-version: 0
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+
+logging:
+  level:
+    test.quo.hardlitchi: DEBUG
+    org.jooq: DEBUG
+    org.springframework.web: DEBUG
+
+server:
+  port: 8081
