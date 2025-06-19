@@ -15,7 +15,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
   flyway:
-    enabled: false  # 最初はFlywayを無効化
+    enabled: true  # Flywayを有効化
     locations: classpath:db/migration
     baseline-on-migrate: true
     baseline-version: 0

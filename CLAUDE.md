@@ -51,23 +51,50 @@ This is a Kotlin Spring Boot application for managing books and authors using jO
 - Retrieve all books by a specific author
 
 ## Development Commands
-Since this project uses Gradle, common commands include:
-- `./gradlew build` - Build the project
-- `./gradlew test` - Run tests
-- `./gradlew bootRun` - Run the application
-- `./gradlew generateJooq` - Generate jOOQ classes (after Flyway migrations)
+### Essential Commands
+- `./gradlew build` - プロジェクトをビルド
+- `./gradlew test` - 全テストを実行
+- `./gradlew bootRun` - アプリケーションを起動（ポート8081）
+- `./gradlew flywayMigrate` - Flywayマイグレーションを実行
+- `./gradlew generateJooq` - jOOQクラスを生成（マイグレーション後）
+
+### Database Operations
+- `docker-compose up -d` - PostgreSQLコンテナを起動
+- `./gradlew flywayInfo` - マイグレーション状態を確認
+- `./gradlew flywayClean` - データベースをクリーン（開発環境のみ）
+
+### Testing
+- `./gradlew test --tests "ClassName"` - 特定のテストクラスを実行
+- `./gradlew test --tests "ClassName.methodName"` - 特定のテストメソッドを実行
 
 ## Database Setup
-1. Use Flyway for database migrations
-2. Run migrations to create schema
-3. Generate jOOQ classes using Gradle plugin
-4. Configure jOOQ code generation following official documentation
+### Development Environment
+1. `docker-compose up -d` でPostgreSQLコンテナを起動
+2. Database: `quo_test`, User: `quo_user`, Password: `quo_pass`, Port: 5432
+3. `./gradlew flywayMigrate` でマイグレーションを実行
+4. `./gradlew generateJooq` でjOOQクラスを生成
+5. 生成されたクラスは `src/main/generated` に配置される
 
-## Code Standards
-- Use Kotlin best practices (immutability, null safety)
-- Follow Spring Boot conventions
-- Maintain proper code formatting consistency
-- Create comprehensive unit tests
-- Use meaningful variable, class, and function names
-- Avoid over-engineering solutions
-- Apply validation rules as specified in business requirements
+### jOOQ Configuration
+- パッケージ: `test.quo.hardlitchi.generated`
+- Records生成、Immutable POJOs生成、Fluent Setters有効
+
+## Architecture Notes
+### Data Flow
+1. **Controllers** (`web.controller`) - REST APIエンドポイント、リクエスト/レスポンス処理
+2. **Services** (`common.service`) - ビジネスロジック、バリデーション
+3. **Repositories** (`common.repository`) - jOOQを使用したデータアクセス
+4. **Entities** (`common.entity`) - データベーステーブルに対応
+
+### Key Business Rules
+- 書籍は最低1人の著者が必要（多対多関係）
+- 書籍価格は0以上
+- 出版済み書籍は未出版に戻せない
+- 著者の生年月日は現在日付より過去
+- 主キー: 書籍（タイトル）、著者（名前）、出版（書籍タイトル+著者名）
+
+### Spring Boot Configuration
+- アプリケーションポート: 8081
+- Flyway初期状態では無効化（development時に手動実行）
+- JPA/Hibernateは無効化（jOOQ使用のため）
+- TestContainersを使用したテスト環境
