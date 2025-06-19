@@ -51,119 +51,12 @@ jOOQでコードを自動生成する為に、以下を参照し設定を追加�
 
 
 ## 設計
-### パッケージ構成
-- test.quo.hardlitchi - ルートパッケージ
-- test.quo.hardlitchi.common - 共通部品
-- test.quo.hardlitchi.common.bean - bean
-- test.quo.hardlitchi.common.const - 定数
-- test.quo.hardlitchi.common.entity - エンティティ
-- test.quo.hardlitchi.common.repository - リポジトリ
-- test.quo.hardlitchi.common.service - 業務ロジック
-- test.quo.hardlitchi.common.util - ユーティリティ
-- test.quo.hardlitchi.web.bean - Webパラメータ
-- test.quo.hardlitchi.web.controller - コントローラ
-
 ### テーブル設計
-#### 書籍
-主キー：タイトル
-- 名前
-- 価格（0以上であること）
-- 出版状況（未出版、出版済み。出版済みステータスのものを未出版には変更できない）
-- 作成日時
-- 作成者
-- 更新日時
-- 更新者
-
-#### 著者
-主キー：名前
-- 名前
-- 生年月日（現在の日付よりも過去であること）
-- 作成日時
-- 作成者
-- 更新日時
-- 更新者
-
-#### 出版
-主キー：書籍タイトル、著者名
-- 書籍タイトル
-- 著者名
-- 作成日時
-- 作成者
-- 更新日時
-- 更新者
-
+参照：[11.table-design.md](doc/10.design/11.table-design.md)
 ### API設計
-- 著者情報登録
-- 著者情報更新
-- 著者出版書籍一覧取得  
-  当該著者が出版した書籍一覧を取得する
-- 書籍、出版情報登録
-- 書籍、出版情報更新
+参照：[12.api-design.md](doc/10.design/12.api-design.md)
+### パッケージ構成
+参照：[15.package-design.md](doc/10.design/15.package-design.md)
 
 ## 開発環境構築手順
-
-### 前提条件
-- Java 21がインストールされていること
-- Dockerがインストールされていること（データベース用）
-
-### 1. プロジェクトのクローン・取得
-```bash
-# プロジェクトディレクトリに移動
-cd quo-test
-```
-
-### 2. データベースの起動
-PostgreSQLをDocker Composeで起動します。
-```bash
-# PostgreSQLコンテナをバックグラウンドで起動
-docker compose up -d
-
-# 起動確認
-docker compose ps
-```
-
-### 3. アプリケーションのビルド
-```bash
-# Gradleラッパーを使用してビルド
-./gradlew build
-```
-
-### 4. アプリケーションの起動
-```bash
-# Spring Bootアプリケーションを起動
-./gradlew bootRun
-```
-
-アプリケーションは http://localhost:8081 で起動します。
-
-### 5. データベース初期化（初回のみ）
-データベースのテーブルを作成する際は、以下の手順で行います：
-
-1. Flywayマイグレーションファイルを作成
-2. application.ymlでFlyway設定を有効化
-3. jOOQコード生成を実行
-
-```bash
-# Flywayマイグレーション実行
-./gradlew flywayMigrate
-
-# jOOQクラス生成
-./gradlew generateJooq
-```
-
-### 開発用コマンド
-```bash
-# テスト実行
-./gradlew test
-
-# アプリケーション停止時のデータベース停止
-docker compose down
-
-# データベースボリューム含めて削除（データ初期化）
-docker compose down -v
-```
-
-### トラブルシューティング
-- ポート8081が使用中の場合：application.ymlのserver.portを変更
-- データベース接続エラー：PostgreSQLコンテナが起動しているか確認
-- ビルドエラー：Java 21が正しくインストールされているか確認
+参照：[11.environment-construction-procedures.md](doc/90.procedure/11.environment-construction-procedures.md)
