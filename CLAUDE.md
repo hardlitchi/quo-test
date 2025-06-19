@@ -59,7 +59,7 @@ This is a Kotlin Spring Boot application for managing books and authors using jO
 - `./gradlew generateJooq` - jOOQクラスを生成（マイグレーション後）
 
 ### Database Operations
-- `docker-compose up -d` - PostgreSQLコンテナを起動
+- `docker compose up -d` - PostgreSQLコンテナを起動
 - `./gradlew flywayInfo` - マイグレーション状態を確認
 - `./gradlew flywayClean` - データベースをクリーン（開発環境のみ）
 
@@ -69,7 +69,7 @@ This is a Kotlin Spring Boot application for managing books and authors using jO
 
 ## Database Setup
 ### Development Environment
-1. `docker-compose up -d` でPostgreSQLコンテナを起動
+1. `docker compose up -d` でPostgreSQLコンテナを起動
 2. Database: `quo_test`, User: `quo_user`, Password: `quo_pass`, Port: 5432
 3. `./gradlew flywayMigrate` でマイグレーションを実行
 4. `./gradlew generateJooq` でjOOQクラスを生成
@@ -95,6 +95,6 @@ This is a Kotlin Spring Boot application for managing books and authors using jO
 
 ### Spring Boot Configuration
 - アプリケーションポート: 8081
-- Flyway初期状態では無効化（development時に手動実行）
-- JPA/Hibernateは無効化（jOOQ使用のため）
+- Flyway有効化（automatic migration実行）
+- DataSourceAutoConfiguration、HibernateJpaAutoConfigurationは無効化（jOOQ使用のため）
 - TestContainersを使用したテスト環境
