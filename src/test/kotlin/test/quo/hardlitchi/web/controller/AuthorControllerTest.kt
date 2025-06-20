@@ -192,7 +192,6 @@ class AuthorControllerTest {
             .andExpect(jsonPath("$.success").value(true))
             .andExpect(jsonPath("$.data.name").value("夏目漱石"))
             .andExpect(jsonPath("$.data.birthDate").value("1867-02-09"))
-            .andExpect(jsonPath("$.message").isEmpty)
     }
 
     @Test

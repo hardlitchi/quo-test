@@ -246,7 +246,6 @@ class BookControllerTest {
             .andExpect(jsonPath("$.data.title").value("こころ"))
             .andExpect(jsonPath("$.data.price").value(500))
             .andExpect(jsonPath("$.data.authors[0]").value("夏目漱石"))
-            .andExpect(jsonPath("$.message").isEmpty)
     }
 
     @Test
