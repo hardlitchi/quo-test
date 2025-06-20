@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.mockito.BDDMockito.*
 import org.mockito.ArgumentMatchers.any
+import org.mockito.kotlin.any
 import test.quo.hardlitchi.common.entity.Author
 import test.quo.hardlitchi.common.service.*
 import test.quo.hardlitchi.web.bean.CreateAuthorRequest
@@ -69,7 +70,7 @@ class AuthorControllerTest {
     @DisplayName("正常な著者登録リクエストで201が返される")
     fun returns201ForValidAuthorCreationRequest() {
         // Given
-        given(authorService.createAuthor(any(CreateAuthorDto::class.java)))
+        given(authorService.createAuthor(any<CreateAuthorDto>()))
             .willReturn(sampleAuthor)
 
         // When & Then
@@ -123,7 +124,7 @@ class AuthorControllerTest {
     @DisplayName("重複する著者名で登録しようとすると409が返される")
     fun returns409ForDuplicateAuthorName() {
         // Given
-        given(authorService.createAuthor(any(CreateAuthorDto::class.java)))
+        given(authorService.createAuthor(any<CreateAuthorDto>()))
             .willThrow(DuplicateResourceException("著者は既に存在します: 夏目漱石"))
 
         // When & Then
@@ -145,7 +146,7 @@ class AuthorControllerTest {
             birthDate = LocalDate.of(1867, 1, 5),
             updatedAt = LocalDateTime.of(2024, 1, 1, 12, 0)
         )
-        given(authorService.updateAuthor(any(UpdateAuthorDto::class.java)))
+        given(authorService.updateAuthor(any<UpdateAuthorDto>()))
             .willReturn(updatedAuthor)
 
         // When & Then
@@ -165,7 +166,7 @@ class AuthorControllerTest {
     @DisplayName("存在しない著者を更新しようとすると404が返される")
     fun returns404ForUpdatingNonExistentAuthor() {
         // Given
-        given(authorService.updateAuthor(any(UpdateAuthorDto::class.java)))
+        given(authorService.updateAuthor(any<UpdateAuthorDto>()))
             .willThrow(ResourceNotFoundException("著者が見つかりません: 存在しない著者"))
 
         // When & Then
@@ -292,7 +293,7 @@ class AuthorControllerTest {
     @DisplayName("サービス層で予期しない例外が発生した場合500が返される")
     fun returns500ForUnexpectedExceptionInServiceLayer() {
         // Given
-        given(authorService.createAuthor(any(CreateAuthorDto::class.java)))
+        given(authorService.createAuthor(any<CreateAuthorDto>()))
             .willThrow(RuntimeException("データベース接続エラー"))
 
         // When & Then

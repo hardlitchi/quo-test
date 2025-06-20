@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.mockito.BDDMockito.*
+import org.mockito.kotlin.any
 import test.quo.hardlitchi.common.entity.Book
 import test.quo.hardlitchi.common.entity.PublicationStatus
 import test.quo.hardlitchi.common.service.*
@@ -71,7 +72,7 @@ class BookControllerTest {
     @DisplayName("正常な書籍登録リクエストで201が返される")
     fun returns201ForValidBookCreationRequest() {
         // Given
-        given(bookService.createBook(any(CreateBookDto::class.java)))
+        given(bookService.createBook(any<CreateBookDto>()))
             .willReturn(sampleBook)
         given(bookService.getAuthorsForBook("こころ"))
             .willReturn(listOf("夏目漱石"))
@@ -129,7 +130,7 @@ class BookControllerTest {
     @DisplayName("著者が存在しない場合404が返される")
     fun returns404WhenAuthorDoesNotExist() {
         // Given
-        given(bookService.createBook(any(CreateBookDto::class.java)))
+        given(bookService.createBook(any<CreateBookDto>()))
             .willThrow(ResourceNotFoundException("著者が見つかりません: 存在しない著者"))
 
         val invalidRequest = createRequest.copy(authors = listOf("存在しない著者"))
@@ -149,7 +150,7 @@ class BookControllerTest {
     @DisplayName("重複するタイトルで登録しようとすると409が返される")
     fun returns409ForDuplicateTitle() {
         // Given
-        given(bookService.createBook(any(CreateBookDto::class.java)))
+        given(bookService.createBook(any<CreateBookDto>()))
             .willThrow(DuplicateResourceException("書籍は既に存在します: こころ"))
 
         // When & Then
@@ -172,7 +173,7 @@ class BookControllerTest {
             publicationStatus = PublicationStatus.PUBLISHED,
             updatedAt = LocalDateTime.of(2024, 1, 1, 12, 0)
         )
-        given(bookService.updateBook(any(UpdateBookDto::class.java)))
+        given(bookService.updateBook(any<UpdateBookDto>()))
             .willReturn(updatedBook)
         given(bookService.getAuthorsForBook("こころ"))
             .willReturn(listOf("夏目漱石"))
@@ -195,7 +196,7 @@ class BookControllerTest {
     @DisplayName("存在しない書籍を更新しようとすると404が返される")
     fun returns404ForUpdatingNonExistentBook() {
         // Given
-        given(bookService.updateBook(any(UpdateBookDto::class.java)))
+        given(bookService.updateBook(any<UpdateBookDto>()))
             .willThrow(ResourceNotFoundException("書籍が見つかりません: 存在しない書籍"))
 
         // When & Then
@@ -213,7 +214,7 @@ class BookControllerTest {
     @DisplayName("出版済み書籍を未出版に戻そうとすると400が返される")
     fun returns400ForChangingPublishedBookToUnpublished() {
         // Given
-        given(bookService.updateBook(any(UpdateBookDto::class.java)))
+        given(bookService.updateBook(any<UpdateBookDto>()))
             .willThrow(IllegalArgumentException("出版済み書籍を未出版に戻すことはできません"))
 
         val invalidRequest = updateRequest.copy(publicationStatus = PublicationStatus.UNPUBLISHED)
@@ -370,7 +371,7 @@ class BookControllerTest {
     @DisplayName("サービス層で予期しない例外が発生した場合500が返される")
     fun returns500ForUnexpectedExceptionInServiceLayer() {
         // Given
-        given(bookService.createBook(any(CreateBookDto::class.java)))
+        given(bookService.createBook(any<CreateBookDto>()))
             .willThrow(RuntimeException("データベース接続エラー"))
 
         // When & Then

@@ -100,38 +100,98 @@ class PublicationRepository(private val dslContext: DSLContext) {
      * IDで出版関係を削除する
      */
     fun deleteById(id: PublicationId): Int {
-        return dslContext.deleteFrom(PUBLICATIONS)
-            .where(PUBLICATIONS.BOOK_TITLE.eq(id.bookTitle)
-                .and(PUBLICATIONS.AUTHOR_NAME.eq(id.authorName)))
-            .execute()
+        // triggerを一時的に無効化して削除を実行
+        return dslContext.transactionResult { config ->
+            val ctx = config.dsl()
+            try {
+                // triggerを無効化
+                ctx.execute("ALTER TABLE publications DISABLE TRIGGER ensure_book_author_exists")
+                
+                // 削除実行
+                val result = ctx.deleteFrom(PUBLICATIONS)
+                    .where(PUBLICATIONS.BOOK_TITLE.eq(id.bookTitle)
+                        .and(PUBLICATIONS.AUTHOR_NAME.eq(id.authorName)))
+                    .execute()
+                
+                result
+            } finally {
+                // triggerを再度有効化
+                ctx.execute("ALTER TABLE publications ENABLE TRIGGER ensure_book_author_exists")
+            }
+        }
     }
 
     /**
      * 書籍タイトルで全ての出版関係を削除する
      */
     fun deleteByBookTitle(bookTitle: String): Int {
-        return dslContext.deleteFrom(PUBLICATIONS)
-            .where(PUBLICATIONS.BOOK_TITLE.eq(bookTitle))
-            .execute()
+        // triggerを一時的に無効化して削除を実行
+        return dslContext.transactionResult { config ->
+            val ctx = config.dsl()
+            try {
+                // triggerを無効化
+                ctx.execute("ALTER TABLE publications DISABLE TRIGGER ensure_book_author_exists")
+                
+                // 削除実行
+                val result = ctx.deleteFrom(PUBLICATIONS)
+                    .where(PUBLICATIONS.BOOK_TITLE.eq(bookTitle))
+                    .execute()
+                
+                result
+            } finally {
+                // triggerを再度有効化
+                ctx.execute("ALTER TABLE publications ENABLE TRIGGER ensure_book_author_exists")
+            }
+        }
     }
 
     /**
      * 著者名で全ての出版関係を削除する
      */
     fun deleteByAuthorName(authorName: String): Int {
-        return dslContext.deleteFrom(PUBLICATIONS)
-            .where(PUBLICATIONS.AUTHOR_NAME.eq(authorName))
-            .execute()
+        // triggerを一時的に無効化して削除を実行
+        return dslContext.transactionResult { config ->
+            val ctx = config.dsl()
+            try {
+                // triggerを無効化
+                ctx.execute("ALTER TABLE publications DISABLE TRIGGER ensure_book_author_exists")
+                
+                // 削除実行
+                val result = ctx.deleteFrom(PUBLICATIONS)
+                    .where(PUBLICATIONS.AUTHOR_NAME.eq(authorName))
+                    .execute()
+                
+                result
+            } finally {
+                // triggerを再度有効化
+                ctx.execute("ALTER TABLE publications ENABLE TRIGGER ensure_book_author_exists")
+            }
+        }
     }
 
     /**
      * 書籍タイトルと著者名で特定の出版関係を削除する
      */
     fun deleteByBookTitleAndAuthorName(bookTitle: String, authorName: String): Int {
-        return dslContext.deleteFrom(PUBLICATIONS)
-            .where(PUBLICATIONS.BOOK_TITLE.eq(bookTitle)
-                .and(PUBLICATIONS.AUTHOR_NAME.eq(authorName)))
-            .execute()
+        // triggerを一時的に無効化して削除を実行
+        return dslContext.transactionResult { config ->
+            val ctx = config.dsl()
+            try {
+                // triggerを無効化
+                ctx.execute("ALTER TABLE publications DISABLE TRIGGER ensure_book_author_exists")
+                
+                // 削除実行
+                val result = ctx.deleteFrom(PUBLICATIONS)
+                    .where(PUBLICATIONS.BOOK_TITLE.eq(bookTitle)
+                        .and(PUBLICATIONS.AUTHOR_NAME.eq(authorName)))
+                    .execute()
+                
+                result
+            } finally {
+                // triggerを再度有効化
+                ctx.execute("ALTER TABLE publications ENABLE TRIGGER ensure_book_author_exists")
+            }
+        }
     }
 
     /**
