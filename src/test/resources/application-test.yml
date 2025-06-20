@@ -4,7 +4,7 @@ spring:
     username: quo_user
     password: quo_pass
     driver-class-name: org.postgresql.Driver
-    
+
   sql:
     init:
       mode: never
@@ -15,6 +15,7 @@ spring:
       - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
       
   flyway:
+    cleanDisabled: false
     enabled: false  # テスト時はFlywayを無効化（既にマイグレーション済み）
 
 # ログレベル設定（テスト実行時の可視性向上）

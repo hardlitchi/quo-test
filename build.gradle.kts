@@ -36,6 +36,7 @@ dependencies {
     
     // Database
     implementation("org.flywaydb:flyway-core")
+    implementation("org.flywaydb:flyway-database-postgresql:11.1.1")
     runtimeOnly("org.postgresql:postgresql")
     
     // jOOQ
@@ -83,7 +84,7 @@ tasks.jacocoTestReport {
                 "test/quo/hardlitchi/generated/**",
                 // Spring Boot起動クラスを除外
                 "test/quo/hardlitchi/QuoTestApplicationKt.class",
-                // エンティティクラス（データクラス）を除外する場合
+                // エンティティクラス（データクラス）を除外
                 // "test/quo/hardlitchi/common/entity/**"
             )
         }
@@ -126,7 +127,7 @@ kotlin {
 
 // jOOQ設定
 jooq {
-    version.set("3.18.7")
+    version.set("3.19.18")
     configurations {
         create("main") {
             generateSchemaSourceOnCompilation.set(false)  // 自動生成を無効化
@@ -159,6 +160,10 @@ jooq {
             }
         }
     }
+}
+
+tasks.named("generateJooq") {
+    dependsOn(tasks.flywayMigrate)
 }
 
 // Flyway設定

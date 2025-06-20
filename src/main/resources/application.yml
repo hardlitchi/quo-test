@@ -13,13 +13,13 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
+        # format_sql: true
   flyway:
     enabled: true  # Flywayを有効化
     locations: classpath:db/migration
     baseline-on-migrate: true
     baseline-version: 0
-    clean-disabled: false  # flywayCleanを有効化
+    cleanDisabled: false  # flywayCleanを有効化
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
