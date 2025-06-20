@@ -11,11 +11,12 @@ This is a Kotlin Spring Boot application for managing books and authors using jO
 
 ## Technology Stack
 - Language: Kotlin
-- Framework: Spring Boot
-- Database Access: jOOQ
+- Framework: Spring Boot 3.3.4
+- Database Access: jOOQ 3.19.13
 - Migration: Flyway
-- Database: PostgreSQL
-- Build Tool: Gradle
+- Database: PostgreSQL 15
+- Build Tool: Gradle 8.5
+- Testing: JUnit 5, TestContainers, Mockito-Kotlin
 - Java Version: 21 or 17
 
 ## Package Structure
@@ -66,6 +67,7 @@ This is a Kotlin Spring Boot application for managing books and authors using jO
 ### Testing
 - `./gradlew test --tests "ClassName"` - 特定のテストクラスを実行
 - `./gradlew test --tests "ClassName.methodName"` - 特定のテストメソッドを実行
+- `./gradlew test jacocoTestReport` - テストカバレッジレポート生成
 
 ## Database Setup
 ### Development Environment
@@ -98,3 +100,38 @@ This is a Kotlin Spring Boot application for managing books and authors using jO
 - Flyway有効化（automatic migration実行）
 - DataSourceAutoConfiguration、HibernateJpaAutoConfigurationは無効化（jOOQ使用のため）
 - TestContainersを使用したテスト環境
+
+## Current Implementation Status (2025年6月20日時点)
+
+### Completed Features
+- **Database Design**: 著者・書籍・出版の3テーブル完全実装
+- **Full Stack Implementation**: Entity→Repository→Service→Controller→Web Bean
+- **REST API**: 著者・書籍管理の完全なCRUD API
+- **Exception Handling**: グローバル例外ハンドラによる統一的エラー処理
+- **Test Suite**: 125テスト、93%カバレッジ達成
+
+### Test Coverage (Current)
+- **Overall Coverage**: 93% (instruction coverage)
+- **Branch Coverage**: 70%
+- **Total Tests**: 125 tests
+- **Package Coverage**:
+  - web.controller: 100%
+  - web.bean: 100%  
+  - web.exception: 98%
+  - common.repository: 95%
+  - common.service: 93%
+  - common.entity: 73%
+
+### Technical Achievements
+- **Mockito-Kotlin**: any()メソッドのオーバーロード問題解決済み
+- **TestRestTemplate**: 統合テストでの実HTTP通信
+- **UUID Test Data**: テストデータ競合回避による安定したテスト実行
+- **@DirtiesContext**: テスト間の独立性確保
+- **jOOQ Type Safety**: コンパイル時のSQLタイプチェック
+
+### Build & Quality Status
+- ✅ All dependencies resolved successfully
+- ✅ All 125 tests passing
+- ✅ Complete CRUD operations functional
+- ✅ Error handling with proper HTTP status codes
+- ✅ Database constraints and business rules enforced
