@@ -1,7 +1,6 @@
 package test.quo.hardlitchi.web.bean
 
 import com.fasterxml.jackson.annotation.JsonFormat
-import com.fasterxml.jackson.annotation.JsonInclude
 import test.quo.hardlitchi.common.service.CreateAuthorDto
 import test.quo.hardlitchi.common.service.UpdateAuthorDto
 import java.time.LocalDate
@@ -59,36 +58,9 @@ data class UpdateAuthorRequest(
 data class AuthorResponse(
     val name: String,
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     val birthDate: LocalDate,
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     val createdAt: LocalDateTime,
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     val updatedAt: LocalDateTime
-)
-
-/**
- * API共通レスポンス形式
- */
-data class ApiResponse<T>(
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    val success: Boolean,
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    val data: T?,
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    val message: String?,
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    val errors: List<FieldError>? = null
-)
-
-/**
- * フィールドエラー情報
- */
-data class FieldError(
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    val field: String,
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    val message: String
 )
