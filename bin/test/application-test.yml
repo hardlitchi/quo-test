@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/quo_test
+    username: quo_user
+    password: quo_pass
+    driver-class-name: org.postgresql.Driver
+
+  sql:
+    init:
+      mode: never
+      
+  # テスト時はJOOQを有効化、JPAは無効化
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+      
+  flyway:
+    cleanDisabled: false
+    enabled: false  # テスト時はFlywayを無効化（既にマイグレーション済み）
+
+# ログレベル設定（テスト実行時の可視性向上）
+logging:
+  level:
+    test.quo.hardlitchi: DEBUG
+    org.jooq: DEBUG
+    org.springframework.transaction: DEBUG

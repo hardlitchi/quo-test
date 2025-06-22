@@ -59,6 +59,11 @@ This is a Kotlin Spring Boot application for managing books and authors using jO
 - `./gradlew flywayMigrate` - Flywayマイグレーションを実行
 - `./gradlew generateJooq` - jOOQクラスを生成（マイグレーション後）
 
+### 権限エラー対策
+- ビルドディレクトリの権限エラーが発生する場合は `sudo` を使用
+- `sudo ./gradlew clean test jacocoTestReport` - 管理者権限でテスト実行とカバレッジ生成
+- `sudo rm -rf build` - ビルドディレクトリの強制削除
+
 ### Database Operations
 - `docker compose up -d` - PostgreSQLコンテナを起動
 - `./gradlew flywayInfo` - マイグレーション状態を確認

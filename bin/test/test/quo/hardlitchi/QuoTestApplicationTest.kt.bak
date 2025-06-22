@@ -1,0 +1,19 @@
+package test.quo.hardlitchi
+
+import org.junit.jupiter.api.Test
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
+
+/**
+ * 基本的なSpring Bootアプリケーションテスト
+ */
+@SpringBootTest
+@ActiveProfiles("test")
+class QuoTestApplicationTest {
+
+    @Test
+    fun `アプリケーションコンテキストが正常に起動する`() {
+        // Spring Bootアプリケーションが正常に起動することを確認
+        // このテストがパスすれば、基本的なBean設定は正しい
+    }
+}

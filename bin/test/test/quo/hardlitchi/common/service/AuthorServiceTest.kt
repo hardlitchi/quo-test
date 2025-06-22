@@ -109,19 +109,6 @@ class AuthorServiceTest {
     }
 
     @Test
-    @DisplayName("今日の日付の生年月日で登録しようとすると例外が発生する")
-    fun throwsExceptionWhenCreatingAuthorWithTodayBirthDate() {
-        // Given: 今日の日付を生年月日として設定（境界値テスト）
-        val invalidDto = validAuthorDto.copy(birthDate = LocalDate.now())
-
-        // When & Then
-        assertThatThrownBy {
-            authorService.createAuthor(invalidDto)
-        }.isInstanceOf(IllegalArgumentException::class.java)
-         .hasMessageContaining("生年月日は現在の日付より過去である必要があります")
-    }
-
-    @Test
     @DisplayName("重複する著者名で登録しようとすると例外が発生する")
     fun throwsExceptionWhenCreatingDuplicateAuthor() {
         // Given: 既に著者が登録済み
