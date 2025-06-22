@@ -20,6 +20,9 @@ class BookController(private val bookService: BookService) {
     /**
      * 書籍を登録する
      * POST /api/books
+     * 
+     * @param request 書籍登録リクエスト
+     * @return 登録された書籍情報を含むレスポンス
      */
     @PostMapping
     fun createBook(@Valid @RequestBody request: CreateBookRequest): ResponseEntity<ApiResponse<BookResponse>> {
@@ -36,6 +39,10 @@ class BookController(private val bookService: BookService) {
     /**
      * 書籍情報を更新する
      * PUT /api/books/{title}
+     * 
+     * @param title 更新対象の書籍タイトル
+     * @param request 書籍更新リクエスト
+     * @return 更新された書籍情報を含むレスポンス
      */
     @PutMapping("/{title}")
     fun updateBook(
@@ -55,6 +62,9 @@ class BookController(private val bookService: BookService) {
     /**
      * 書籍情報を取得する
      * GET /api/books/{title}
+     * 
+     * @param title 取得する書籍タイトル
+     * @return 書籍情報、またはエラーレスポンス
      */
     @GetMapping("/{title}")
     fun getBook(@PathVariable title: String): ResponseEntity<ApiResponse<BookResponse>> {
@@ -80,6 +90,10 @@ class BookController(private val bookService: BookService) {
     /**
      * 書籍一覧を取得する
      * GET /api/books
+     * 
+     * @param status オプションの出版状況フィルター
+     * @param author オプションの著者名フィルター
+     * @return 条件にマッチする書籍リストを含むレスポンス
      */
     @GetMapping
     fun getBooks(

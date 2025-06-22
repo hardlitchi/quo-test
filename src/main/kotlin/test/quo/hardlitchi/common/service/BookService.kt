@@ -24,6 +24,12 @@ class BookService(
 
     /**
      * 書籍を作成する
+     * 
+     * @param dto 書籍作成用DTO
+     * @return 作成された書籍エンティティ
+     * @throws DuplicateResourceException 同名の書籍が既に存在する場合
+     * @throws ResourceNotFoundException 指定された著者が存在しない場合
+     * @throws IllegalArgumentException 入力値が不正な場合
      */
     fun createBook(dto: CreateBookDto): Book {
         // バリデーション
@@ -54,6 +60,11 @@ class BookService(
 
     /**
      * 書籍を更新する
+     * 
+     * @param dto 書籍更新用DTO
+     * @return 更新された書籍エンティティ
+     * @throws ResourceNotFoundException 指定された書籍または著者が存在しない場合
+     * @throws IllegalArgumentException 入力値が不正または出版状態変更が不正な場合
      */
     fun updateBook(dto: UpdateBookDto): Book {
         // バリデーション
@@ -102,6 +113,9 @@ class BookService(
 
     /**
      * 書籍をタイトルで検索する
+     * 
+     * @param title 検索する書籍タイトル
+     * @return 見つかった書籍エンティティ、存在しない場合はnull
      */
     @Transactional(readOnly = true)
     fun findByTitle(title: String): Book? {
@@ -110,6 +124,8 @@ class BookService(
 
     /**
      * 全ての書籍を取得する
+     * 
+     * @return 全書籍のリスト
      */
     @Transactional(readOnly = true)
     fun findAll(): List<Book> {
@@ -118,6 +134,9 @@ class BookService(
 
     /**
      * 出版状況で書籍を検索する
+     * 
+     * @param status 検索する出版状況
+     * @return 指定した出版状況の書籍リスト
      */
     @Transactional(readOnly = true)
     fun findByPublicationStatus(status: PublicationStatus): List<Book> {
@@ -126,6 +145,9 @@ class BookService(
 
     /**
      * 著者名で書籍を検索する
+     * 
+     * @param authorName 検索する著者名
+     * @return 指定した著者の書籍リスト
      */
     @Transactional(readOnly = true)
     fun findByAuthorName(authorName: String): List<Book> {
@@ -134,6 +156,9 @@ class BookService(
 
     /**
      * 書籍の著者一覧を取得する
+     * 
+     * @param bookTitle 書籍タイトル
+     * @return 著者名のリスト（アルファベット順でソート）
      */
     @Transactional(readOnly = true)
     fun getAuthorsForBook(bookTitle: String): List<String> {
@@ -144,6 +169,9 @@ class BookService(
 
     /**
      * 書籍を削除する
+     * 
+     * @param title 削除する書籍タイトル
+     * @throws ResourceNotFoundException 指定された書籍が存在しない場合
      */
     fun deleteByTitle(title: String) {
         // 存在チェック
@@ -157,6 +185,9 @@ class BookService(
 
     /**
      * 書籍が存在するかチェックする
+     * 
+     * @param title チェックする書籍タイトル
+     * @return 存在する場合true、存在しない場合false
      */
     @Transactional(readOnly = true)
     fun existsByTitle(title: String): Boolean {
@@ -165,6 +196,11 @@ class BookService(
 
     /**
      * 書籍DTOのバリデーション
+     * 
+     * @param title 書籍タイトル
+     * @param price 書籍価格
+     * @param authors 著者名リスト
+     * @throws IllegalArgumentException バリデーションエラーの場合
      */
     private fun validateBookDto(title: String, price: BigDecimal, authors: List<String>) {
         if (title.isBlank()) {

@@ -17,6 +17,11 @@ class AuthorService(private val authorRepository: AuthorRepository) {
 
     /**
      * 著者を作成する
+     * 
+     * @param dto 著者作成用DTO
+     * @return 作成された著者エンティティ
+     * @throws DuplicateResourceException 同名の著者が既に存在する場合
+     * @throws IllegalArgumentException 入力値が不正な場合
      */
     fun createAuthor(dto: CreateAuthorDto): Author {
         // バリデーション
@@ -36,6 +41,11 @@ class AuthorService(private val authorRepository: AuthorRepository) {
 
     /**
      * 著者を更新する
+     * 
+     * @param dto 著者更新用DTO
+     * @return 更新された著者エンティティ
+     * @throws ResourceNotFoundException 指定された著者が存在しない場合
+     * @throws IllegalArgumentException 入力値が不正な場合
      */
     fun updateAuthor(dto: UpdateAuthorDto): Author {
         // バリデーション
@@ -58,6 +68,9 @@ class AuthorService(private val authorRepository: AuthorRepository) {
 
     /**
      * 著者を名前で検索する
+     * 
+     * @param name 検索する著者名
+     * @return 見つかった著者エンティティ、存在しない場合はnull
      */
     @Transactional(readOnly = true)
     fun findByName(name: String): Author? {
@@ -66,6 +79,8 @@ class AuthorService(private val authorRepository: AuthorRepository) {
 
     /**
      * 全ての著者を取得する
+     * 
+     * @return 全著者のリスト（名前順でソート）
      */
     @Transactional(readOnly = true)
     fun findAll(): List<Author> {
@@ -74,6 +89,9 @@ class AuthorService(private val authorRepository: AuthorRepository) {
 
     /**
      * 著者を削除する
+     * 
+     * @param name 削除する著者名
+     * @throws ResourceNotFoundException 指定された著者が存在しない場合
      */
     fun deleteByName(name: String) {
         // 存在チェック
@@ -86,6 +104,9 @@ class AuthorService(private val authorRepository: AuthorRepository) {
 
     /**
      * 著者が存在するかチェックする
+     * 
+     * @param name チェックする著者名
+     * @return 存在する場合true、存在しない場合false
      */
     @Transactional(readOnly = true)
     fun existsByName(name: String): Boolean {
@@ -94,6 +115,10 @@ class AuthorService(private val authorRepository: AuthorRepository) {
 
     /**
      * 著者DTOのバリデーション
+     * 
+     * @param name 著者名
+     * @param birthDate 生年月日
+     * @throws IllegalArgumentException バリデーションエラーの場合
      */
     private fun validateAuthorDto(name: String, birthDate: LocalDate) {
         if (name.isBlank()) {
@@ -116,6 +141,8 @@ data class CreateAuthorDto(
 ) {
     /**
      * DTOからEntityに変換
+     * 
+     * @return 変換された著者エンティティ
      */
     fun toEntity(): Author {
         val now = LocalDateTime.now()

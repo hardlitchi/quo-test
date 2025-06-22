@@ -22,6 +22,9 @@ class AuthorController(
     /**
      * 著者を登録する
      * POST /api/authors
+     * 
+     * @param request 著者登録リクエスト
+     * @return 登録された著者情報を含むレスポンス
      */
     @PostMapping
     fun createAuthor(@Valid @RequestBody request: CreateAuthorRequest): ResponseEntity<ApiResponse<AuthorResponse>> {
@@ -37,6 +40,10 @@ class AuthorController(
     /**
      * 著者情報を更新する
      * PUT /api/authors/{name}
+     * 
+     * @param name 更新対象の著者名
+     * @param request 著者更新リクエスト
+     * @return 更新された著者情報を含むレスポンス
      */
     @PutMapping("/{name}")
     fun updateAuthor(
@@ -55,6 +62,9 @@ class AuthorController(
     /**
      * 著者情報を取得する
      * GET /api/authors/{name}
+     * 
+     * @param name 取得する著者名
+     * @return 著者情報、またはエラーレスポンス
      */
     @GetMapping("/{name}")
     fun getAuthor(@PathVariable name: String): ResponseEntity<ApiResponse<AuthorResponse>> {
@@ -79,6 +89,8 @@ class AuthorController(
     /**
      * 著者一覧を取得する
      * GET /api/authors
+     * 
+     * @return 全著者のリストを含むレスポンス
      */
     @GetMapping
     fun getAuthors(): ResponseEntity<ApiResponse<List<AuthorResponse>>> {
@@ -94,6 +106,9 @@ class AuthorController(
     /**
      * 著者出版書籍一覧を取得する
      * GET /api/authors/{name}/books
+     * 
+     * @param name 書籍を検索する著者名
+     * @return 著者の書籍リスト、またはエラーレスポンス
      */
     @GetMapping("/{name}/books")
     fun getAuthorBooks(@PathVariable name: String): ResponseEntity<ApiResponse<List<BookResponse>>> {
@@ -124,6 +139,8 @@ class AuthorController(
 
     /**
      * AuthorエンティティをレスポンスDTOに変換
+     * 
+     * @return 変換された著者レスポンスDTO
      */
     private fun Author.toResponse(): AuthorResponse {
         return AuthorResponse(
