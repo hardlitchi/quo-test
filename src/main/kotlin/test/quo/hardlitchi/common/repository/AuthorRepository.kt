@@ -15,6 +15,10 @@ class AuthorRepository(private val dslContext: DSLContext) {
 
     /**
      * 著者を登録する
+     * 
+     * @param author 登録する著者エンティティ
+     * @return 登録された著者エンティティ（タイムスタンプ更新済み）
+     * @throws RuntimeException 登録に失敗した場合
      */
     fun insert(author: Author): Author {
         val now = LocalDateTime.now()
@@ -37,6 +41,10 @@ class AuthorRepository(private val dslContext: DSLContext) {
 
     /**
      * 著者を更新する
+     * 
+     * @param author 更新する著者エンティティ
+     * @return 更新された著者エンティティ（タイムスタンプ更新済み）
+     * @throws NoSuchElementException 指定された著者が存在しない場合
      */
     fun update(author: Author): Author {
         val now = LocalDateTime.now()
@@ -57,6 +65,9 @@ class AuthorRepository(private val dslContext: DSLContext) {
 
     /**
      * 名前で著者を検索する
+     * 
+     * @param name 検索する著者名
+     * @return 見つかった著者エンティティ、存在しない場合はnull
      */
     fun findByName(name: String): Author? {
         return dslContext.selectFrom(AUTHORS)
@@ -76,6 +87,8 @@ class AuthorRepository(private val dslContext: DSLContext) {
 
     /**
      * 全ての著者を取得する
+     * 
+     * @return 全著者のリスト（名前順でソート）
      */
     fun findAll(): List<Author> {
         return dslContext.selectFrom(AUTHORS)
@@ -95,6 +108,9 @@ class AuthorRepository(private val dslContext: DSLContext) {
 
     /**
      * 著者を削除する
+     * 
+     * @param name 削除する著者名
+     * @return 削除されたレコード数
      */
     fun deleteByName(name: String): Int {
         return dslContext.deleteFrom(AUTHORS)
@@ -104,6 +120,9 @@ class AuthorRepository(private val dslContext: DSLContext) {
 
     /**
      * 著者が存在するかチェックする
+     * 
+     * @param name チェックする著者名
+     * @return 存在する場合true、存在しない場合false
      */
     fun existsByName(name: String): Boolean {
         return dslContext.fetchExists(

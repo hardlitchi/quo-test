@@ -21,6 +21,9 @@ class GlobalExceptionHandler {
 
     /**
      * バリデーションエラー処理
+     * 
+     * @param e メソッド引数バリデーション例外
+     * @return バリデーションエラーのレスポンス（400 Bad Request）
      */
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleValidationException(e: MethodArgumentNotValidException): ResponseEntity<ApiResponse<Any>> {
@@ -43,6 +46,9 @@ class GlobalExceptionHandler {
 
     /**
      * リソース未発見例外処理
+     * 
+     * @param e リソース未発見例外
+     * @return リソース未発見エラーのレスポンス（404 Not Found）
      */
     @ExceptionHandler(ResourceNotFoundException::class)
     fun handleResourceNotFoundException(e: ResourceNotFoundException): ResponseEntity<ApiResponse<Any>> {
@@ -57,6 +63,9 @@ class GlobalExceptionHandler {
 
     /**
      * 重複リソース例外処理
+     * 
+     * @param e 重複リソース例外
+     * @return 重複リソースエラーのレスポンス（409 Conflict）
      */
     @ExceptionHandler(DuplicateResourceException::class)
     fun handleDuplicateResourceException(e: DuplicateResourceException): ResponseEntity<ApiResponse<Any>> {
@@ -71,6 +80,9 @@ class GlobalExceptionHandler {
 
     /**
      * 引数例外処理
+     * 
+     * @param e 不正引数例外
+     * @return 不正引数エラーのレスポンス（400 Bad Request）
      */
     @ExceptionHandler(IllegalArgumentException::class)
     fun handleIllegalArgumentException(e: IllegalArgumentException): ResponseEntity<ApiResponse<Any>> {
@@ -85,6 +97,9 @@ class GlobalExceptionHandler {
 
     /**
      * JSONパースエラー処理
+     * 
+     * @param e HTTPメッセージ読み取り不可例外
+     * @return JSONパースエラーのレスポンス（400 Bad Request）
      */
     @ExceptionHandler(HttpMessageNotReadableException::class)
     fun handleHttpMessageNotReadableException(e: HttpMessageNotReadableException): ResponseEntity<ApiResponse<Any>> {
@@ -99,6 +114,9 @@ class GlobalExceptionHandler {
 
     /**
      * Content-Type不正エラー処理
+     * 
+     * @param e HTTPメディアタイプ未サポート例外
+     * @return Content-Typeエラーのレスポンス（415 Unsupported Media Type）
      */
     @ExceptionHandler(HttpMediaTypeNotSupportedException::class)
     fun handleHttpMediaTypeNotSupportedException(e: HttpMediaTypeNotSupportedException): ResponseEntity<ApiResponse<Any>> {
@@ -112,7 +130,10 @@ class GlobalExceptionHandler {
     }
 
     /**
-     * その他の例外処理
+     * その他の例外処理（サーバーエラー）
+     * 
+     * @param e 予期しない例外
+     * @return サーバーエラーのレスポンス（500 Internal Server Error）
      */
     @ExceptionHandler(Exception::class)
     fun handleGeneralException(e: Exception): ResponseEntity<ApiResponse<Any>> {

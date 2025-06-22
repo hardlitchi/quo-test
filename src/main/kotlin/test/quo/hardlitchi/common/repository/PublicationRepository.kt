@@ -16,6 +16,10 @@ class PublicationRepository(private val dslContext: DSLContext) {
 
     /**
      * 出版関係を登録する
+     * 
+     * @param publication 登録する出版関係エンティティ
+     * @return 登録された出版関係エンティティ（タイムスタンプ更新済み）
+     * @throws RuntimeException 登録に失敗した場合
      */
     fun insert(publication: Publication): Publication {
         val now = LocalDateTime.now()

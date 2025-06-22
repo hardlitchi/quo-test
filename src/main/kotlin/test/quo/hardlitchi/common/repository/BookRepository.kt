@@ -17,6 +17,10 @@ class BookRepository(private val dslContext: DSLContext) {
 
     /**
      * 書籍を登録する
+     * 
+     * @param book 登録する書籍エンティティ
+     * @return 登録された書籍エンティティ（タイムスタンプ更新済み）
+     * @throws RuntimeException 登録に失敗した場合
      */
     fun insert(book: Book): Book {
         val now = LocalDateTime.now()
@@ -40,6 +44,10 @@ class BookRepository(private val dslContext: DSLContext) {
 
     /**
      * 書籍を更新する
+     * 
+     * @param book 更新する書籍エンティティ
+     * @return 更新された書籍エンティティ（タイムスタンプ更新済み）
+     * @throws NoSuchElementException 指定された書籍が存在しない場合
      */
     fun update(book: Book): Book {
         val now = LocalDateTime.now()
@@ -61,6 +69,9 @@ class BookRepository(private val dslContext: DSLContext) {
 
     /**
      * タイトルで書籍を検索する
+     * 
+     * @param title 検索する書籍タイトル
+     * @return 見つかった書籍エンティティ、存在しない場合はnull
      */
     fun findByTitle(title: String): Book? {
         return dslContext.selectFrom(BOOKS)
@@ -81,6 +92,8 @@ class BookRepository(private val dslContext: DSLContext) {
 
     /**
      * 全ての書籍を取得する
+     * 
+     * @return 全書籍のリスト（タイトル順でソート）
      */
     fun findAll(): List<Book> {
         return dslContext.selectFrom(BOOKS)
@@ -101,6 +114,9 @@ class BookRepository(private val dslContext: DSLContext) {
 
     /**
      * 書籍を削除する
+     * 
+     * @param title 削除する書籍タイトル
+     * @return 削除されたレコード数
      */
     fun deleteByTitle(title: String): Int {
         // triggerを一時的に無効化して削除を実行
@@ -125,6 +141,9 @@ class BookRepository(private val dslContext: DSLContext) {
 
     /**
      * 書籍が存在するかチェックする
+     * 
+     * @param title チェックする書籍タイトル
+     * @return 存在する場合true、存在しない場合false
      */
     fun existsByTitle(title: String): Boolean {
         return dslContext.fetchExists(
@@ -135,6 +154,9 @@ class BookRepository(private val dslContext: DSLContext) {
 
     /**
      * 出版状況で書籍を検索する
+     * 
+     * @param status 検索する出版状況
+     * @return 指定した出版状況の書籍リスト
      */
     fun findByPublicationStatus(status: PublicationStatus): List<Book> {
         return dslContext.selectFrom(BOOKS)
@@ -156,6 +178,9 @@ class BookRepository(private val dslContext: DSLContext) {
 
     /**
      * 著者名で書籍を検索する
+     * 
+     * @param authorName 検索する著者名
+     * @return 指定した著者の書籍リスト
      */
     fun findByAuthorName(authorName: String): List<Book> {
         return dslContext.select(BOOKS.fields().toList())
