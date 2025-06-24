@@ -1,7 +1,6 @@
 package test.quo.hardlitchi.web.bean
 
 import com.fasterxml.jackson.annotation.JsonFormat
-import com.fasterxml.jackson.annotation.JsonInclude
 import test.quo.hardlitchi.common.entity.Book
 import test.quo.hardlitchi.common.entity.PublicationStatus
 import test.quo.hardlitchi.common.service.CreateBookDto
@@ -74,19 +73,13 @@ data class UpdateBookRequest(
  * 書籍レスポンス（著者情報含む）
  */
 data class BookResponse(
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     val title: String,
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     val price: BigDecimal,
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     val publicationStatus: PublicationStatus,
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     val authors: List<String>,
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     val createdAt: LocalDateTime,
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     val updatedAt: LocalDateTime
 ) {
     companion object {
